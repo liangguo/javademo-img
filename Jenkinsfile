@@ -1,6 +1,7 @@
-pipeline {
+node {
     agent any
 
+    def app
     //tools {
         // Install the Maven version configured as "M3" and add it to the path.
     //    maven "M3"
@@ -25,10 +26,15 @@ pipeline {
             //    }
             //}
         }
-        stage('Build Docker image') {
+        stage('Build image') {
             steps {
-                def newApp = docker.build "liangguo/javademo-img:${env.BUILD_TAG}"
-                newApp.push()
+                app= docker.build "liangguo/javademo-img"
+            }
+
+        stage('Push image') {
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
             }
         }
     }
