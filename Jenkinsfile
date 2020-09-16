@@ -25,5 +25,11 @@ pipeline {
             //    }
             //}
         }
+        stage('Build Docker image') {
+            steps {
+                def newApp = docker.build "liangguo/javademo-img:${env.BUILD_TAG}"
+                newApp.push()
+            }
+        }
     }
 }
