@@ -32,7 +32,7 @@ node {
         sh '''
             ip=$(kubectl get svc -n javademo-img |grep javademo-img|awk '{print $4;}')
             echo "javademo-img service ip is ${ip}"
-            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://${ip}/img/dog.png)
+            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://${ip}/img/cat.png)
             if [ "$response" != "200" ];
             then
                 exit 1
