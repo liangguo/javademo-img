@@ -25,12 +25,12 @@ node {
     }
 
     stage('Deploy to test k8s') {
-        sh "sed -e 's/BUILD/${env.BUILD_NUMBER}/' |javademo-img-deployment.yml|kubectl apply -f -"
+        sh "sed -e 's/BUILD/${env.BUILD_NUMBER}/' javademo-img-deployment.yml|kubectl apply -f -"
     }
 
     stage('Simulate user test') {
         sh '
-            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://192.168.2.71/img/cat.png)
+            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://192.168.2.71/img/dog.png)
             if [ "$response" != "200" ];
             then
                 exit 1
