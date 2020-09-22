@@ -24,8 +24,8 @@ node {
         }
     }
 
-    stage('Deploy to test k8s') {
-        sh "sed -e 's/BUILD/${env.BUILD_NUMBER}/' javademo-img-deployment.yml|kubectl apply -f -"
+    stage('Deploy to k8s') {
+        sh "sed -e 's/BUILD/${env.BUILD_NUMBER}/' javademo-img.yml|kubectl apply -f -"
     }
 
     stage('Simulate user test') {
@@ -45,6 +45,10 @@ node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("latest")
         }
+    }
+
+    stage('Remove deployed resource') {
+        sh "kubectl delete namespace javademo-img"
     }
 
 }
