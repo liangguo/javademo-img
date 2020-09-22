@@ -29,13 +29,13 @@ node {
     }
 
     stage('Simulate user test') {
-        sh '
+        sh '''
             response=$(curl -s -o /dev/null -w "%{http_code}\n" http://192.168.2.71/img/dog.png)
             if [ "$response" != "200" ];
             then
                 exit 1
             fi
-        '
+        '''
     }
 
     // If test fail, latest tag should not be pushed to dockerhub. 
