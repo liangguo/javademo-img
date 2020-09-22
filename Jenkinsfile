@@ -30,7 +30,9 @@ node {
 
     stage('Simulate user test') {
         sh '''
-            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://192.168.2.71/img/dog.png)
+            ip=$(kubectl get svc -n javademo-img |grep javademo-img|awk '{print $4;}')
+            echo "javademo-img service ip is ${ip}"
+            response=$(curl -s -o /dev/null -w "%{http_code}\n" http://${ip}/img/dog.png)
             if [ "$response" != "200" ];
             then
                 exit 1
